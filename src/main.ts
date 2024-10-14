@@ -94,7 +94,7 @@ function createTickerOscillator(): void {
 // Ticker interval settings
 let minInterval: number = 1000; // Minimum interval in ms
 let maxInterval: number = 2000; // Maximum interval in ms
-let duration: number = 60; // Duration for the sine wave transition in seconds
+let duration: number = 240; // Duration for the sine wave transition in seconds
 let startTime: number | null = null; // To track the start time of the ticker
 let tickInterval: number = 0;
 
@@ -132,6 +132,10 @@ function playTicker(): void {
       div.className = 'w-1 bg-red-500';
       div.style.height = `${tickInterval / 1000 * 32}px`;
       values.appendChild(div);
+
+      if (values.children.length > 100) {
+        values.removeChild(values.children[0]);
+      }
     }
 
     ticker = setTimeout(next, tickInterval);
@@ -215,16 +219,16 @@ document.body.innerHTML = `
 
         <div class="form-control w-full max-w-xs mb-4">
           <label class="label">
-            <span class="label-text">Max Ticker Interval: <span id="maxTickIntervalValue">3000</span> ms</span>
+            <span class="label-text">Max Ticker Interval: <span id="maxTickIntervalValue">2000</span> ms</span>
           </label>
-          <input type="range" id="maxTickIntervalSlider" min="100" max="10000" step="100" value="3000" class="range range-secondary">
+          <input type="range" id="maxTickIntervalSlider" min="100" max="10000" step="100" value="2000" class="range range-secondary">
         </div>
 
         <div class="form-control w-full max-w-xs mb-4">
           <label class="label">
-            <span class="label-text">Duration for Interval Change: <span id="durationValue">60</span> s</span>
+            <span class="label-text">Duration for Interval Change: <span id="durationValue">240</span> s</span>
           </label>
-          <input type="range" id="durationSlider" min="10" max="120" step="1" value="60" class="range range-secondary">
+          <input type="range" id="durationSlider" min="10" max="360" step="1" value="240" class="range range-secondary">
         </div>
       </div>
     </div>
