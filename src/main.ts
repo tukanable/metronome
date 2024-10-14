@@ -14,6 +14,7 @@ let filterFrequency: number = 700;
 // Initialize the AudioContext
 function initAudioContext() {
   if (!audioContext) {
+    // @ts-ignore
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
   }
 }
@@ -165,14 +166,6 @@ function updateFilterFrequency(value: number): void {
 // Update the ticker volume
 function updateTickerVolume(value: number): void {
   tickerVolume = value;
-}
-
-// Update the ticker interval
-function updateTickInterval(value: number): void {
-  tickInterval = value;
-  if (ticker) {
-    playTicker(); // Restart the ticker with the new interval
-  }
 }
 
 // UI setup using DaisyUI components
