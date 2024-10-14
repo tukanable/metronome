@@ -20,13 +20,16 @@ function initAudioContext() {
 }
 
 // Create a buffer for white noise
-function createWhiteNoiseBuffer(context: AudioContext, bufferSize: number = 2 * context.sampleRate): AudioBuffer {
+function createWhiteNoiseBuffer(context: AudioContext, bufferSize: number = 10 * context.sampleRate): AudioBuffer {
   const buffer: AudioBuffer = context.createBuffer(1, bufferSize, context.sampleRate);
   const data: Float32Array = buffer.getChannelData(0);
 
   for (let i = 0; i < bufferSize; i++) {
     data[i] = Math.random() * 2 - 1; // Fill the buffer with white noise
+    data[i] += Math.sin(i / 100) * 0.1; // Add a sine wave to the noise
+    data[i] += Math.sin(i / 1000) * 0.05; // Add a higher frequency sine wave
   }
+
   return buffer;
 }
 
@@ -119,6 +122,11 @@ function playTicker(): void {
 
     const angle = (startTime / (duration*1000*2)) * Math.PI;
     tickInterval = Math.sin(angle) * (maxInterval - minInterval) + minInterval;
+
+    if (whiteNoiseSource) {
+      whiteNoiseSource.playbackRate.value = 1 + Math.sin(angle) * 0.5;
+      console.log('setting playback rate to', whiteNoiseSource.playbackRate.value);
+    }
 
     const el = document.getElementById('tickInterval');
     if (el) {
